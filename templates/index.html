@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>${page['page_title']} - ${page['app_title']}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta http-equiv="Content-Language" content="zh-CN"/>
+<meta name="robots" content="index, follow" />
+<!-- Bootstrap -->
+<link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link rel="shortcut icon" href="static/favicon.ico">
+</head>
+<body>
+<h1>你好，世界！</h1>
+<form class="form-inline">
+    <input id="command" name="command" type="text" class="input-large" placeholder="command">
+    <button id="run" name="run" type="button" class="btn">运行</button>
+  </form>
+<div class="masthead" id="chart" style="height:600px;width:800px;"></div>
+
+<script src="static/js/jquery.min.js"></script>
+<script src="static/js/bootstrap.min.js"></script>
+<script src="static/js/esl.js"></script>
+<script type="text/javascript">
+    require.config({
+        paths:{ 
+            echarts:'static/js/echarts',
+            'echarts/chart/bar' : 'static/js/echarts',
+            'echarts/chart/line': 'static/js/echarts'
+        }
+    });
+    
+    require(
+        [
+            'echarts',
+            'echarts/chart/bar',
+            'echarts/chart/line'
+        ],
+        function(ec) {
+            var myChart = ec.init(document.getElementById('chart'));
+            var option = {
+                tooltip : {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data:['蒸发量','降水量']
+                },
+                toolbox: {
+                    show : true,
+                    feature : {
+                        mark : true,
+                        dataView : {readOnly: false},
+                        magicType:['line', 'bar'],
+                        restore : true,
+                        saveAsImage : true
+                    }
+                },
+                calculable : true,
+                xAxis : [
+                    {
+                        type : 'category',
+                        data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value',
+                        splitArea : {show : true}
+                    }
+                ],
+                series : [
+                    {
+                        name:'蒸发量',
+                        type:'bar',
+                        data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+                    },
+                    {
+                        name:'降水量',
+                        type:'bar',
+                        data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+                    }
+                ]
+            };
+            
+            myChart.setOption(option);
+        }
+    );
+</script>
+
+</body>
+</html>
